@@ -55,11 +55,7 @@ public class AuthRepository {
                             liveData.setValue(response.body());
                         } else {
                             ResponseLogin r = new ResponseLogin();
-                            try {
-                                r.setToken(String.valueOf(response.errorBody().string()));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            r.setToken(String.valueOf(response.code()));
                             Log.e(TAG, "onResponse: " + r.getToken());
                             liveData.setValue(r);
                         }

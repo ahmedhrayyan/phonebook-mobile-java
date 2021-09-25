@@ -122,15 +122,16 @@
 
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/register_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="52dp"
             android:onClick="@{(v)->registerPresenter.Register()}"
             android:padding="12dp"
-            android:layout_marginBottom="52dp"
-            android:text="@string/login"
+            android:text="@string/register"
             android:textAllCaps="false"
             android:textSize="20sp"
             app:cornerRadius="8dp" />

@@ -9,13 +9,16 @@ import com.example.contacts.databinding.ActivityLoginBinding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.contacts.R;
 import com.example.contacts.network.models.ResponseLogin;
 import com.example.contacts.ui.AuthListener;
+import com.example.contacts.ui.home.ContactsActivity;
 import com.example.contacts.ui.register.RegisterActivity;
 import com.example.contacts.utils.NetworkConnection;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity implements AuthListener {
 
@@ -50,20 +53,27 @@ public class LoginActivity extends AppCompatActivity implements AuthListener {
 
     @Override
     public void onStarted() {
-        Toast.makeText(this, "Start", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Start", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onSuccess(LiveData<ResponseLogin> liveData) {
         liveData.observe(this, s -> {
-            // TODO: handle Wrong email or Password code(422).
-            Toast.makeText(this, s.getToken(), Toast.LENGTH_LONG).show();
+            if (s.getToken().equals("422")) {
+                Snackbar.make(findViewById(R.id.login_bt), "Email or Password is incorrect",
+                        Snackbar.LENGTH_LONG).show();
+            } else {
+                //TODO:Store the given token.
+                Snackbar.make(findViewById(R.id.login_bt), s.getToken(), Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(this, ContactsActivity.class);
+                startActivity(i);
+            }
         });
     }
 
     @Override
     public void onFailure(String msg) {
-        Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.login_bt), msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

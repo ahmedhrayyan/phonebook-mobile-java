@@ -11,14 +11,15 @@ public class LoginViewModel extends ViewModel {
 
     protected void loginRequest(String email, String password) {
         if (!authListener.isConnection()) {
+            authListener.onFailure("No Internet Connection");
             return;
         }
         if (email.isEmpty()) {
-            authListener.onFailure(String.valueOf(R.string.write_email));
+            authListener.onFailure("Please write Your Email.");
             return;
         }
         if (password.isEmpty()) {
-            authListener.onFailure(String.valueOf(R.string.write_password));
+            authListener.onFailure("Please write Your Password");
             return;
         }
         authListener.onStarted();

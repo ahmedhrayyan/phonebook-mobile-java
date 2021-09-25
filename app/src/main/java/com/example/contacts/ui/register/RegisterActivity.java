@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -11,7 +12,9 @@ import com.example.contacts.R;
 import com.example.contacts.databinding.ActivityRegisterBinding;
 import com.example.contacts.network.models.ResponseLogin;
 import com.example.contacts.ui.AuthListener;
+import com.example.contacts.ui.home.ContactsActivity;
 import com.example.contacts.utils.NetworkConnection;
+import com.google.android.material.snackbar.Snackbar;
 
 public class RegisterActivity extends AppCompatActivity implements AuthListener {
 
@@ -35,20 +38,27 @@ public class RegisterActivity extends AppCompatActivity implements AuthListener 
 
     @Override
     public void onStarted() {
-        Toast.makeText(this, "Start", Toast.LENGTH_LONG).show();
+
     }
 
     @Override
     public void onSuccess(LiveData<ResponseLogin> liveData) {
         liveData.observe(this, s -> {
-            // TODO: handle Wrong email or Password code(422).
-            Toast.makeText(this, s.getToken(), Toast.LENGTH_LONG).show();
+            if (s.getToken().equals("400")) {
+                Snackbar.make(findViewById(R.id.register_bt), "Email or Password is invalid",
+                        Snackbar.LENGTH_LONG).show();
+            } else {
+                //TODO:Store the given token.
+                Snackbar.make(findViewById(R.id.register_bt), s.getToken(), Snackbar.LENGTH_LONG).show();
+                Intent i = new Intent(this, ContactsActivity.class);
+                startActivity(i);
+            }
         });
     }
 
     @Override
     public void onFailure(String msg) {
-        Toast.makeText(this, "Fail", Toast.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.register_bt), msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

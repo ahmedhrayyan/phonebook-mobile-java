@@ -1,5 +1,7 @@
 package com.example.contacts.ui.register;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.ViewModel;
 
 import com.example.contacts.R;
@@ -14,15 +16,19 @@ public class RegisterViewModel extends ViewModel {
             return;
         }
         if (name.isEmpty()) {
-            authListener.onFailure(String.valueOf(R.string.write_name));
+            authListener.onFailure("Please write Your Name.");
             return;
         }
         if (email.isEmpty()) {
-            authListener.onFailure(String.valueOf(R.string.write_email));
+            authListener.onFailure("Please write Your Email");
             return;
         }
-        if (password.isEmpty()) {
-            authListener.onFailure(String.valueOf(R.string.write_password));
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            authListener.onFailure("Please write Your Email Correctly.");
+            return;
+        }
+        if (password.isEmpty() || password.length() < 8) {
+            authListener.onFailure("Password should have at least 8 characters");
             return;
         }
         authListener.onStarted();
