@@ -4,8 +4,7 @@ import android.util.Patterns;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.contacts.R;
-import com.example.contacts.repository.AuthRepository;
+import com.example.contacts.data.repository.ContactRepository;
 import com.example.contacts.ui.AuthListener;
 
 public class RegisterViewModel extends ViewModel {
@@ -32,6 +31,6 @@ public class RegisterViewModel extends ViewModel {
             return;
         }
         authListener.onStarted();
-        authListener.onSuccess(new AuthRepository().userRegister(email, name, password));
+        authListener.onSuccess(new ContactRepository().userRegister(name, email, password));
     }
 }

@@ -1,4 +1,4 @@
-package com.example.contacts.network.models;
+package com.example.contacts.data.network.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

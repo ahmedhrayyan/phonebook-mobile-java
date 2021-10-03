@@ -1,21 +1,19 @@
 package com.example.contacts.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
 
+import com.example.contacts.data.local.LocalData;
 import com.example.contacts.databinding.ActivityLoginBinding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.contacts.R;
-import com.example.contacts.network.models.ResponseLogin;
+import com.example.contacts.data.network.models.ResponseLogin;
 import com.example.contacts.ui.AuthListener;
-import com.example.contacts.ui.home.ContactsActivity;
+import com.example.contacts.ui.home.Contacts.ContactsActivity;
 import com.example.contacts.ui.register.RegisterActivity;
 import com.example.contacts.utils.NetworkConnection;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,13 +21,15 @@ import com.google.android.material.snackbar.Snackbar;
 public class LoginActivity extends AppCompatActivity implements AuthListener {
 
     private ActivityLoginBinding binding;
+    private LocalData localData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //Prevent Dark Mode.
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+
+        localData = LocalData.getPreferences(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         LoginViewModel loginVM = new LoginViewModel();
@@ -59,13 +59,14 @@ public class LoginActivity extends AppCompatActivity implements AuthListener {
     @Override
     public void onSuccess(LiveData<ResponseLogin> liveData) {
         liveData.observe(this, s -> {
-            if (s.getToken().equals("422")) {
+            if (s == null || s.getToken().equals("422") || s.getToken().equals("400")) {
                 Snackbar.make(findViewById(R.id.login_bt), "Email or Password is incorrect",
                         Snackbar.LENGTH_LONG).show();
             } else {
                 //TODO:Store the given token.
                 Snackbar.make(findViewById(R.id.login_bt), s.getToken(), Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(this, ContactsActivity.class);
+                localData.setTOKEN(s.getToken());
                 startActivity(i);
             }
         });

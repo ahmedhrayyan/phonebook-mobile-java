@@ -2,7 +2,7 @@ package com.example.contacts.ui;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.contacts.network.models.ResponseLogin;
+import com.example.contacts.data.network.models.ResponseLogin;
 
 public interface AuthListener {
 

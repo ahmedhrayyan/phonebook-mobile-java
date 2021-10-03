@@ -1,4 +1,4 @@
-package com.example.contacts.network.models;
+package com.example.contacts.data.network.models;
 
 public class ResponseLogin {
 

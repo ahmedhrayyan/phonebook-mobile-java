@@ -13,18 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/login_style">
         <activity
-            android:name=".ui.home.ContactsActivity"
+            android:name=".ui.home.add.AddContactActivity"
             android:theme="@style/Theme.Contacts" />
-        <activity android:name=".ui.register.RegisterActivity" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:theme="@style/login_style">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.home.Contacts.ContactsActivity"
+            android:theme="@style/Theme.Contacts" />
+        <activity android:name=".ui.register.RegisterActivity" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:theme="@style/login_style" />
     </application>
 
 </manifest>

@@ -6,23 +6,26 @@ import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.contacts.R;
+import com.example.contacts.data.local.LocalData;
 import com.example.contacts.databinding.ActivityRegisterBinding;
-import com.example.contacts.network.models.ResponseLogin;
+import com.example.contacts.data.network.models.ResponseLogin;
 import com.example.contacts.ui.AuthListener;
-import com.example.contacts.ui.home.ContactsActivity;
+import com.example.contacts.ui.home.Contacts.ContactsActivity;
 import com.example.contacts.utils.NetworkConnection;
 import com.google.android.material.snackbar.Snackbar;
 
 public class RegisterActivity extends AppCompatActivity implements AuthListener {
 
     private ActivityRegisterBinding binding;
+    private LocalData localData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        localData = LocalData.getPreferences(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         RegisterViewModel registerVM = new RegisterViewModel();
@@ -51,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements AuthListener 
                 //TODO:Store the given token.
                 Snackbar.make(findViewById(R.id.register_bt), s.getToken(), Snackbar.LENGTH_LONG).show();
                 Intent i = new Intent(this, ContactsActivity.class);
+                localData.setTOKEN(s.getToken());
                 startActivity(i);
             }
         });
